@@ -1,7 +1,7 @@
+import Blogs from "@/components/blog/Blogs";
+import Header from "@/components/blog/Header";
 import React from "react";
 
-import Header from "@/components/blog-grid-sidebar/Header";
-import Blogs from "@/components/blog-grid-sidebar/Blogs";
 export async function generateStaticParams() {
   return [
     { category: "html" },

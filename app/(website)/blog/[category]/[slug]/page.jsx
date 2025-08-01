@@ -1,6 +1,6 @@
-import React from "react";
-import Header from "@/components/blog-details/Header";
 import Blog from "@/components/blog-details/Blog";
+import Header from "@/components/blog-details/Header";
+import React from "react";
 
 export async function generateStaticParams() {
   // This should return an array of all possible combinations

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Footer() {
   return (
@@ -29,16 +29,22 @@ function Footer() {
               <h6 className="sub-title mb-30">Useful Links</h6>
               <ul className="rest fz-14 opacity-7">
                 <li className="mb-15">
-                  <a href="/page-about">About</a>
+                  <a href="/about">About</a>
                 </li>
                 <li className="mb-15">
-                  <a href="/page-services">Services</a>
+                  <a href="/services">Services</a>
                 </li>
                 <li className="mb-15">
-                  <a href="/blog-grid-sidebar">Blog</a>
+                  <a href="/portfolio">Portfolio</a>
+                </li>
+                <li className="mb-15">
+                  <a href="/blog">Blog</a>
+                </li>
+                <li className="mb-15">
+                  <a href="/FAQ">FAQ</a>
                 </li>
                 <li>
-                  <a href="/page-contact">Contact</a>
+                  <a href="/contact">Contact</a>
                 </li>
               </ul>
             </div>
@@ -80,7 +86,7 @@ function Footer() {
         <div className="pt-30 pb-30 mt-80 bord-thin-top">
           <div className="text-center">
             <p className="fz-14">
-              © 2024 Webfolio is Proudly Powered by{' '}
+              © 2024 Webfolio is Proudly Powered by{" "}
               <span className="underline main-color">
                 <a href="https://themeforest.net/user/UiCamp" target="_blank">
                   UiCamp

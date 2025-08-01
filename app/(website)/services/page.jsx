@@ -1,12 +1,11 @@
-import React from "react";
 import Clients from "@/components/common/Clients";
-import Services from "@/components/home-digital-agency/Services";
-import Intro2 from "@/components/home-digital-agency/Intro2";
-import Testimonials from "@/components/home-digital-agency/Testimonials";
-import Blog from "@/components/home-digital-agency/Blog";
-import Header from "@/components/page-services/Header";
-import Numbers from "@/components/page-services/Numbers";
 import Marq2 from "@/components/common/Marq2";
+import Blog from "@/components/services-page/Blog";
+import Header from "@/components/services-page/Header";
+import Intro2 from "@/components/services-page/Intro2";
+import Numbers from "@/components/services-page/Numbers";
+import Services from "@/components/services-page/Services";
+import Testimonials from "@/components/services-page/Testimonials";
 
 const ServicesPage = () => {
   return (

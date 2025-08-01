@@ -1,7 +1,6 @@
-import React from "react";
-import Header from "@/components/p-grid/Header";
-import Portfolio from "@/components/p-grid/Portfolio";
 import Marq2 from "@/components/common/Marq2";
+import Header from "@/components/portfolio-page/Header";
+import Portfolio from "@/components/portfolio-page/Portfolio";
 
 const PortfolioPage = () => {
   return (
