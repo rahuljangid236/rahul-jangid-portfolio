@@ -79,11 +79,11 @@ export default function UserMetaCard({}) {
             </div>
             <div className="order-3 xl:order-2">
               <h4 className="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
-                {form.firstName ? form.firstName + " " : "Rahul" }  {" "}  {form.lastName ? form.lastName : "Jangid"}
+                {form?.firstName ? form?.firstName + " " : "Rahul" }  {" "}  {form?.lastName ? form?.lastName : "Jangid"}
               </h4>
               <div className="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left">
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                 {form.role ? form.role : "Frontend Developer" }
+                 {form?.role ? form?.role : "Frontend Developer" }
                 </p>
                 <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -95,7 +95,7 @@ export default function UserMetaCard({}) {
               {/* facebook */}
               <a        
         target="_blank"
-        rel="noreferrer" href={form.socialLinks.facebook} className="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
+        rel="noreferrer" href={form?.socialLinks.facebook} className="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                 <svg
                   className="fill-current"
                   width="20"
@@ -111,7 +111,7 @@ export default function UserMetaCard({}) {
                 </svg>
               </a>
               {/* x.com */}
-              <a href={form.socialLinks.twitter} target="_blank"
+              <a href={form?.socialLinks?.twitter} target="_blank"
         rel="noreferrer"  className="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                 <svg
                   className="fill-current"
@@ -128,7 +128,7 @@ export default function UserMetaCard({}) {
                 </svg>
               </a>
                 {/* Linkedin */}
-              <a href={form.socialLinks.linkedIn} target="_blank"
+              <a href={form?.socialLinks?.linkedIn} target="_blank"
         rel="noreferrer" className="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                 <svg
                   className="fill-current"
@@ -146,7 +146,7 @@ export default function UserMetaCard({}) {
               </a>
               {/* Instagram */}
 
-              <a href={form.socialLinks.instagram} target="_blank"
+              <a href={form?.socialLinks?.instagram} target="_blank"
         rel="noreferrer" className="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                 <svg
                   className="fill-current"
@@ -164,7 +164,7 @@ export default function UserMetaCard({}) {
               </a>
                {/* Github */}
 
-              <a href={form.socialLinks.github} target="_blank"
+              <a href={form?.socialLinks?.github} target="_blank"
         rel="noreferrer" className="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                 
                 <svg
@@ -226,18 +226,18 @@ export default function UserMetaCard({}) {
                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                   <div className="col-span-2 lg:col-span-1">
                     <Label>First Name</Label>
-                    <Input  type="text" name="firstName" onChange={handleChange} defaultValue={form.firstName} />
+                    <Input  type="text" name="firstName" onChange={handleChange} defaultValue={form?.firstName} />
                   </div>
 
                   <div className="col-span-2 lg:col-span-1">
                     <Label>Last Name</Label>
-                    <Input  type="text" name="lastName" onChange={handleChange} defaultValue={form.lastName} />
+                    <Input  type="text" name="lastName" onChange={handleChange} defaultValue={form?.lastName} />
                   </div>
 
                  
                   <div className="col-span-2 lg:col-span-1">
                     <Label>Role</Label>
-                    <Input type="text" name="role" onChange={handleChange} defaultValue={form.role} />
+                    <Input type="text" name="role" onChange={handleChange} defaultValue={form?.role} />
                   </div>
                 </div>
               </div>
@@ -253,7 +253,7 @@ export default function UserMetaCard({}) {
                       type="text"
                       name="socialLinks.facebook"
                       onChange={handleChange}
-                      defaultValue={form.socialLinks.facebook}
+                      defaultValue={form?.socialLinks.facebook}
                     />
                   </div>
 
@@ -262,7 +262,7 @@ export default function UserMetaCard({}) {
                     <Input type="text"
                      name="socialLinks.twitter"
                      onChange={handleChange}
-                      defaultValue={form.socialLinks.twitter} />
+                      defaultValue={form?.socialLinks.twitter} />
                   </div>
 
                   <div>
@@ -271,7 +271,7 @@ export default function UserMetaCard({}) {
                       type="text"
                       name="socialLinks.linkedIn"
                       onChange={handleChange}
-                      defaultValue={form.socialLinks.linkedIn}
+                      defaultValue={form?.socialLinks.linkedIn}
                     />
                   </div>
 
@@ -281,7 +281,7 @@ export default function UserMetaCard({}) {
                       type="text"
                       name="socialLinks.instagram"
                       onChange={handleChange}
-                      defaultValue={form.socialLinks.instagram}
+                      defaultValue={form?.socialLinks.instagram}
                     />
                   </div>
                   <div>
@@ -290,7 +290,7 @@ export default function UserMetaCard({}) {
                       type="text"
                       name="socialLinks.github"
                       onChange={handleChange}
-                      defaultValue={form.socialLinks.github}
+                      defaultValue={form?.socialLinks.github}
                     />
                   </div>
                   <div>
@@ -299,7 +299,7 @@ export default function UserMetaCard({}) {
                       type="text"
                       name="resume"
                       onChange={handleChange}
-                      defaultValue={form.resume}
+                      defaultValue={form?.resume}
                     />
                   </div>
                 </div>

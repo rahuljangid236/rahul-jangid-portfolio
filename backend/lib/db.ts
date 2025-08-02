@@ -13,8 +13,3 @@ export const connectDB = async () => {
     }
 }
 
-export async function PersonalInfo() {
-    await connectDB();
-    const data = await PersonalInfoSchema.findOne().lean();
-    return JSON.parse(JSON.stringify(data)); // serialize for server
-}

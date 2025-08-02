@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
@@ -7,12 +7,51 @@ import Input from "../form/input/InputField";
 import Label from "../form/Label";
 
 export default function UserAddressCard() {
+    const [form, setForm] = useState({
+      address: {
+        city : "",
+        state: "",
+        country: "",
+        pincode: "",
+      }
+    })
+    useEffect(() => {
+        fetch("/api/personal-info")
+          .then((res) => res.json())
+          .then((data) => setForm(data));
+      }, []);
+    
+      const handleChange = (e:any) =>{
+        const {name, value} = e.target;
+    
+        // Handle address separately
+        if(name.startsWith("address.")) {
+          const addressKey = name.split(".")[1];
+          setForm((prev)=> ({
+            ...prev,
+            address: {
+              ...prev.address,
+              [addressKey]: value
+            }
+          }))
+        }else{
+          setForm((prev)=> ({...prev, [name]: value}));
+        }
+        
+      }
   const { isOpen, openModal, closeModal } = useModal();
-  const handleSave = () => {
-    // Handle save logic here
-    console.log("Saving changes...");
+  const handleSubmit = async (e:any) => {
+    e.preventDefault();
+    const res = await fetch("/api/personal-info", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    })
+    alert("Profile updated");
     closeModal();
   };
+
+  console.log("Form data:", form);
   return (
     <>
       <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
@@ -28,16 +67,25 @@ export default function UserAddressCard() {
                   Country
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  United States
+                  {form?.address?.country || "United States"}
                 </p>
               </div>
 
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  City/State
+                  State
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  Phoenix, Arizona, United States.
+                  {form?.address?.state || "Arizona, United States."}
+                </p>
+              </div>
+
+              <div>
+                <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                  City
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  {form?.address?.city || "Phoenix"}
                 </p>
               </div>
 
@@ -46,16 +94,7 @@ export default function UserAddressCard() {
                   Postal Code
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  ERT 2489
-                </p>
-              </div>
-
-              <div>
-                <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  TAX ID
-                </p>
-                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  AS4568384
+                 {form?.address?.pincode || "ERT 2489"}
                 </p>
               </div>
             </div>
@@ -94,35 +133,43 @@ export default function UserAddressCard() {
               Update your details to keep your profile up-to-date.
             </p>
           </div>
-          <form className="flex flex-col">
+          <form  className="flex flex-col" onSubmit={handleSubmit}>
             <div className="px-2 overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                 <div>
                   <Label>Country</Label>
-                  <Input type="text" defaultValue="United States" />
+                  <Input type="text" name="address.country"
+                      onChange={handleChange}
+                      defaultValue={form?.address?.country} />
                 </div>
 
                 <div>
-                  <Label>City/State</Label>
-                  <Input type="text" defaultValue="Arizona, United States." />
+                  <Label>State</Label>
+                  <Input type="text" name="address.state"
+                      onChange={handleChange}
+                      defaultValue={form?.address?.state} />
                 </div>
-
+                <div>
+                  <Label>City</Label>
+                  <Input type="text" name="address.city"
+                      onChange={handleChange}
+                      defaultValue={form?.address?.city} />
+                </div>
                 <div>
                   <Label>Postal Code</Label>
-                  <Input type="text" defaultValue="ERT 2489" />
+                  <Input type="text" name="address.pincode"
+                      onChange={handleChange}
+                      defaultValue={form?.address?.pincode} />
                 </div>
 
-                <div>
-                  <Label>TAX ID</Label>
-                  <Input type="text" defaultValue="AS4568384" />
-                </div>
+                
               </div>
             </div>
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
               <Button size="sm" variant="outline" onClick={closeModal}>
                 Close
               </Button>
-              <Button size="sm" onClick={handleSave}>
+              <Button size="sm">
                 Save Changes
               </Button>
             </div>

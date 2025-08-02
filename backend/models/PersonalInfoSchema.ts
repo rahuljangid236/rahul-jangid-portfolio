@@ -7,7 +7,7 @@ const experienceSchema = new mongoose.Schema({
     role: String,
     duration: String, // Example: "Jan 2022 – Jul 2023"
 });
-const PersonalInfoSchema = new mongoose.Schema({
+const personalInfoSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
@@ -76,4 +76,4 @@ const PersonalInfoSchema = new mongoose.Schema({
 
 })
 
-export default mongoose.models?.PersonalInfoSchema || mongoose.model("PersonalInfoSchema", PersonalInfoSchema);
+export default mongoose.models?.PersonalInfo || mongoose.model("PersonalInfo", personalInfoSchema);

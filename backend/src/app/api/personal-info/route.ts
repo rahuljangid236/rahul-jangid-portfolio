@@ -1,6 +1,7 @@
 import { connectDB } from "@/../lib/db";
-import PersonalInfoSchema from "../../../../models/PersonalInfoSchema";
+
 import { NextResponse } from "next/server";
+import PersonalInfoSchema from "../../../../models/PersonalInfoSchema";
 
 export async function GET() {
     await connectDB();
