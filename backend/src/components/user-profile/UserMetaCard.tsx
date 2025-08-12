@@ -1,16 +1,33 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import Image from "next/image";
+import TextArea from "../form/input/TextArea";
 
+interface SocialLinks {
+  facebook?: string;
+  linkedIn?: string;
+  twitter?: string;
+  instagram?: string;
+  github?: string;
+}
+interface PersonalInfoData {
+    firstName: string,
+    lastName: string,
+    role : string,
+    shortBio: string,
+    fullBio: string,
+    profileImage: string,
+    socialLinks: SocialLinks,
+    resume : string
+}
 
-export default function UserMetaCard({}) {
-  const [form, setForm] = useState({
-    firstName: "",
+const defaultData: PersonalInfoData = {
+  firstName: "",
     lastName: "",
     role : "",
     shortBio: "",
@@ -24,44 +41,85 @@ export default function UserMetaCard({}) {
       instagram: "",
     },
     resume:""
-  })
+}
+export default function UserMetaCard({}) {
+  const { isOpen, openModal, closeModal } = useModal();
+  const [form, setForm] = useState<PersonalInfoData>(defaultData)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>("");
  
-  useEffect(() => {
-    fetch("/api/personal-info")
-      .then((res) => res.json())
-      .then((data) => setForm(data));
+  // useEffect(() => {
+  //   fetch("/api/personal-info")
+  //     .then((res) => res.json())
+  //     .then((data) => setForm(data));
+  // }, []);
+
+   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/personal-info");
+        if (!res.ok) throw new Error("Failed to fetch personal info");
+        const data: Partial<PersonalInfoData> = await res.json();
+        setForm(prev => ({
+          ...prev,
+          ...data,
+          socialLinks: { ...prev.socialLinks, ...(data.socialLinks || {}) },
+        }));
+        
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unknown error");
+      }
+    };
+    fetchData();
   }, []);
 
-  const handleChange = (e:any) =>{
-    const {name, value} = e.target;
-
-    // Handle social links separately
-    if(name.startsWith("socialLinks.")) {
-      const socialKey = name.split(".")[1];
-      setForm((prev)=> ({
+ const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    if (name.includes(".")) {
+      const [parent, child] = name.split(".");
+      setForm(prev => ({
         ...prev,
-        socialLinks: {
-          ...prev.socialLinks,
-          [socialKey]: value
-        }
-      }))
-    }else{
-      setForm((prev)=> ({...prev, [name]: value}));
+        [parent]: { ...(prev[parent as keyof PersonalInfoData] as object), [child]: value },
+      }));
+    } else {
+      setForm(prev => ({ ...prev, [name]: value }));
     }
-    
-  }
+  };
 
-  const { isOpen, openModal, closeModal } = useModal();
-  const handleSubmit = async (e:any) => {
-    e.preventDefault();
+ 
+  // const handleSubmit = async (e:any) => {
+  //   e.preventDefault();
+  //   const res = await fetch("/api/personal-info", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(form),
+  //   })
+  //   alert("Profile updated");
+  //   closeModal();
+  // };
+  // Submit handler
+const handleSubmit = async (e: FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
+
+  try {
     const res = await fetch("/api/personal-info", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(form),
-    })
-    alert("Profile updated");
+    });
+
+    if (!res.ok) throw new Error("Failed to update info");
     closeModal();
-  };
+  } catch (err) {
+    setError(err instanceof Error ? err.message : "Unknown error");
+  } finally {
+    setLoading(false);
+  }
+};
 
   console.log("Form data:", form);
   return (
@@ -79,19 +137,23 @@ export default function UserMetaCard({}) {
             </div>
             <div className="order-3 xl:order-2">
               <h4 className="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
-                {form?.firstName ? form?.firstName + " " : "Rahul" }  {" "}  {form?.lastName ? form?.lastName : "Jangid"}
+                {form?.firstName ? form?.firstName + " " : "Rahul" }  {" "}  {form?.lastName ? form?.lastName : "Jangid"} <span className="text-sm text-gray-500 dark:text-gray-400">
+                 ({form?.role ? form?.role : "Frontend Developer" })
+                </span>
               </h4>
               <div className="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left">
+                
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                 {form?.role ? form?.role : "Frontend Developer" }
-                </p>
-                <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Arizona, United States
+                  {form?.shortBio ? form?.shortBio : "ShortBIo" }
                 </p>
               </div>
             </div>
             <div className="flex items-center order-2 gap-2 grow xl:order-3 xl:justify-end">
+               <a        
+        target="_blank"
+        rel="noreferrer" href={form?.resume} className="flex h-11 px-3 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
+                View Resume
+              </a>
               {/* facebook */}
               <a        
         target="_blank"
@@ -205,8 +267,21 @@ export default function UserMetaCard({}) {
             Edit
           </button>
         </div>
+        <div className="mt-5">
+          <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-3">
+            Full Bio
+          </h4>
+          <div className="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left">
+                
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {form?.fullBio ? form?.fullBio : "fullBio" }
+                </p>
+              </div>
+        </div>
       </div>
-      <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[700px] m-4">
+      {
+        isOpen && (
+          <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[700px] m-4">
         <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
           <div className="px-2 pr-14">
             <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
@@ -239,6 +314,30 @@ export default function UserMetaCard({}) {
                     <Label>Role</Label>
                     <Input type="text" name="role" onChange={handleChange} defaultValue={form?.role} />
                   </div>
+                </div>
+              </div>
+               <div className="mt-7">
+                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+                 Bio
+                </h5>
+
+                <div className="grid grid-cols-1 gap-x-6 gap-y-5 ">
+                   <div>
+                      <Label>Short Bio</Label>
+                      <TextArea
+                        value={form?.shortBio}
+                        onChange={(value)=> setForm((prev)=> ({...prev, shortBio : value}))}
+                        rows={3}
+                      />
+                    </div>
+                    <div>
+                      <Label>Full Bio</Label>
+                      <TextArea
+                        value={form?.fullBio}
+                        onChange={(value)=> setForm((prev)=> ({...prev, fullBio : value}))}
+                        rows={3}
+                      />
+                    </div>
                 </div>
               </div>
               <div className="mt-7">
@@ -307,16 +406,21 @@ export default function UserMetaCard({}) {
               
             </div>
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
+               {error && <p className="error text-red-50">{error}</p>}
               <Button size="sm" variant="outline" onClick={closeModal}>
                 Close
               </Button>
-              <Button size="sm" >
-                Save Changes
+              
+              <Button size="sm" disabled={loading} >
+                {loading ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </form>
         </div>
       </Modal>
+        )
+      }
+      
     </>
   );
 }
