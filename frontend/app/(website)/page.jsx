@@ -80,7 +80,15 @@ export default async function Home() {
   console.log("data", personalInfo);
   return (
     <>
-      <Header />
+      <Header
+        firstName={personalInfo?.firstName}
+        lastName={personalInfo?.lastName}
+        role={personalInfo?.role}
+        shortBio={personalInfo?.shortBio}
+        email={personalInfo?.email}
+        phone={personalInfo?.phone}
+        address={personalInfo?.address}
+      />
       <Marq />
       <About />
       <Services />

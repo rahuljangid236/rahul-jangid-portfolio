@@ -6,7 +6,7 @@ export async function GET() {
         await connectDB();
 
         // Fetch only name and contact info from personal info schema
-        const personalInfo = await PersonalInfoSchema.findOne({}, "firstName lastName");
+        const personalInfo = await PersonalInfoSchema.findOne({}, "firstName lastName role shortBio email phone address");
 
         // Fetch all homepage content
         // const homePageContent = await HomePage.findOne({});
