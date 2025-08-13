@@ -45,7 +45,7 @@ const defaultData: PersonalInfoData = {
 export default function UserMetaCard({}) {
   const { isOpen, openModal, closeModal } = useModal();
   const [form, setForm] = useState<PersonalInfoData>(defaultData)
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
  
   // useEffect(() => {
@@ -68,7 +68,9 @@ export default function UserMetaCard({}) {
         
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
-      }
+      }finally {
+            setLoading(false);
+         }
     };
     fetchData();
   }, []);
@@ -122,6 +124,8 @@ const handleSubmit = async (e: FormEvent) => {
 };
 
   console.log("Form data:", form);
+    if (loading) return <p className="text-blue-500">Loading...</p>;
+  if (error) return <p className="text-red-500">Error: {error}</p>;
   return (
     <>
       <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">

@@ -68,7 +68,16 @@ export const metadata = {
     },
   },
 };
-export default function Home() {
+export default async function Home() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/homepage`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch home data");
+  }
+  const { personalInfo } = await res.json();
+
+  console.log("data", personalInfo);
   return (
     <>
       <Header />
