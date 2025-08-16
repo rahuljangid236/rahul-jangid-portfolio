@@ -90,7 +90,13 @@ export default async function Home() {
         address={personalInfo?.address}
       />
       <Marq />
-      <About />
+      <About
+        role={personalInfo?.role}
+        address={personalInfo?.address}
+        fullBio={personalInfo?.fullBio}
+        clientSatisfaction={personalInfo?.clientSatisfaction}
+        projectsCompleted={personalInfo?.projectsCompleted}
+      />
       <Services />
       <Portfolio />
       <Skills />

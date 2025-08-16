@@ -1,6 +1,16 @@
+import Link from "next/link";
 import React from "react";
 
-function Footer() {
+async function Footer() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/footer`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch Footer data");
+  }
+  const { footerPersonalData } = await res.json();
+
+  console.log("data", footerPersonalData);
   return (
     <footer className="clean-footer crev">
       <div className="container pb-40 pt-40 ontop">
@@ -14,13 +24,18 @@ function Footer() {
             <div className="column md-mb50">
               <h6 className="sub-title mb-30">Contact</h6>
               <h6 className="p-color fw-400">
-                5919 Trussville Crossings <br /> Pkwy, Birmingham
+                {footerPersonalData?.address?.city},{" "}
+                {footerPersonalData?.address?.state} , <br />
+                {footerPersonalData?.address?.country},{" "}
+                {footerPersonalData?.address?.pincode}
               </h6>
               <h6 className="mt-30 mb-15">
-                <a href="#0">Hello@webfolio.com</a>
+                <a href="#0">{footerPersonalData?.email}</a>
               </h6>
               <a href="#0" className="underline">
-                <span className="fz-22 main-color">+2 456 (343) 24 45</span>
+                <span className="fz-22 main-color">
+                  {footerPersonalData?.phone}
+                </span>
               </a>
             </div>
           </div>
@@ -59,23 +74,35 @@ function Footer() {
                 </button>
               </div>
               <ul className="rest social-icon d-flex align-items-center">
-                <li className="hover-this cursor-pointer">
-                  <a href="#0" className="hover-anim">
+                <li className=" cursor-pointer">
+                  <a
+                    href={footerPersonalData?.socialLinks?.facebook}
+                    target="_blank"
+                    className=""
+                  >
                     <i className="fab fa-facebook-f"></i>
                   </a>
                 </li>
-                <li className="hover-this cursor-pointer ml-10">
+                <li className=" cursor-pointer ml-10">
                   <a href="#0" className="hover-anim">
-                    <i className="fab fa-dribbble"></i>
+                    <i class="fa-brands fa-github"></i>
                   </a>
                 </li>
-                <li className="hover-this cursor-pointer ml-10">
-                  <a href="#0" className="hover-anim">
+                <li className=" cursor-pointer ml-10">
+                  <a
+                    href={footerPersonalData?.socialLinks?.linkedIn}
+                    target="_blank"
+                    className="hover-anim"
+                  >
                     <i className="fab fa-linkedin-in"></i>
                   </a>
                 </li>
-                <li className="hover-this cursor-pointer ml-10">
-                  <a href="#0" className="hover-anim">
+                <li className=" cursor-pointer ml-10">
+                  <a
+                    href={footerPersonalData?.socialLinks?.instagram}
+                    target="_blank"
+                    className="hover-anim"
+                  >
                     <i className="fab fa-instagram"></i>
                   </a>
                 </li>
@@ -86,10 +113,10 @@ function Footer() {
         <div className="pt-30 pb-30 mt-80 bord-thin-top">
           <div className="text-center">
             <p className="fz-14">
-              © 2024 Webfolio is Proudly Powered by{" "}
+              © 2025{" "}
               <span className="underline main-color">
-                <a href="https://themeforest.net/user/UiCamp" target="_blank">
-                  UiCamp
+                <a href="#" target="_blank">
+                  Rahul Jangid
                 </a>
               </span>
             </p>

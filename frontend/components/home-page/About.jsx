@@ -1,6 +1,12 @@
-import React from 'react';
+import React from "react";
 
-function About() {
+function About({
+  role,
+  address,
+  fullBio,
+  clientSatisfaction,
+  projectsCompleted,
+}) {
   return (
     <section className="about-author section-padding">
       <div className="container with-pad">
@@ -29,26 +35,20 @@ function About() {
               <h6 className="sub-title main-color mb-30">About Me</h6>
               <div className="text">
                 <h4 className="mb-30">
-                  I&apos;m{' '}
-                  <span className="fw-200">
-                    Creative Director and UI-UX Designer
-                  </span>{' '}
-                  from Sydney, Australia, working in web development and print
-                  media.
+                  I&apos;m <span className="fw-200">{role}</span> from{" "}
+                  {address?.city}, {address?.country} working in web development
+                  and print media.
                 </h4>
-                <p>
-                  I enjoy turning complex problems into simple, beautiful and
-                  intuitive designs. My aim is to bring across your message and
-                  identity in the most creative way. I created web design for
-                  many famous brand companies.
-                </p>
+                <p>{fullBio}</p>
 
                 <div className="numbers mt-50">
                   <div className="row lg-marg">
                     <div className="col-md-6">
                       <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20">
                         <div>
-                          <h3 className="fw-300 mb-10">100%</h3>
+                          <h3 className="fw-300 mb-10">
+                            {clientSatisfaction}%
+                          </h3>
                           <h6 className="p-color sub-title">
                             Clients Satisfaction
                           </h6>
@@ -63,7 +63,7 @@ function About() {
                     <div className="col-md-6">
                       <div className="item bord-thin-top pt-30 d-flex align-items-end mt-20">
                         <div>
-                          <h3 className="fw-300 mb-10">6700</h3>
+                          <h3 className="fw-300 mb-10">{projectsCompleted}+</h3>
                           <h6 className="p-color sub-title">
                             Projects Completed
                           </h6>
